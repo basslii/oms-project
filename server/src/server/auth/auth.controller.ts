@@ -39,7 +39,7 @@ export class AuthController {
     return result;
   }
 
-  // @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('signin')
   async login(@Request() req): Promise<IAuth> {
     return this.authService.login(req.body.email, req.body.password);
