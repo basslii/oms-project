@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: nextjs
+    ports:
+      - '4000:4000'
+    depends_on:
+      - server
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./client:/app/client
+  server:
+    build:
+      context: ./server
+      dockerfile: nestjs
+    ports:
+      - '3000:3000'
+    depends_on:
+      - oms-db
+    environment:
+      - DB_HOST=
+      - DB_PORT=
+      - DB_USERNAME=
+      - DB_PASSWORD=
+      - DB_NAME=
+    volumes:
+      - ./server:/app/server
+  oms-db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5433:5433'
+volumes:
+  pgdata:
+    driver: local
