@@ -74,11 +74,11 @@ export class AuthService {
       const { password, ...results } = user;
       return results;
     }
-    throw new UnauthorizedException('Invalid credentials');;
+    throw new UnauthorizedException('Invalid credentials');
   }
 
   async generateToken(user: IUser): Promise<string> {
-    const payload = { sub: user.id };
+    const payload = { sub: user };
     return await this.jwtService.signAsync(payload, {
       privateKey: this.configService.get<string>('JWT_SECRET'),
       expiresIn: this.configService.get<string>('EXPIRES_IN')

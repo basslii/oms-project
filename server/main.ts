@@ -2,7 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { AppModule } from 'app.module';
-// import { ValidationPipe } from '@nestjs/common';
+import * as session from "express-session";
+import * as passport from "passport";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,8 +23,19 @@ async function bootstrap() {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   };
+
   app.enableCors(corsOptions);
-  // app.useGlobalPipes(new ValidationPipe())
+
+  app.use(session({
+    secret: `${process.env.SESSION_SECRET}`,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: +`${process.env.MAX_AGE_PASSPORT}` }
+  }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   await app.listen(3000);
 }
 bootstrap();

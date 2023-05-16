@@ -1,6 +1,6 @@
 import { IUser } from "../../../../server/src/server/users/entities/user.entity";
 import axios from "axios";
-import { RegistrationStatus } from '../../../../server/src/server/auth1/auth.service'
+import { RegistrationStatus } from '../../../../server/src/server/auth/auth.service'
 
 // const params = {
 //     filter: 'recent',
@@ -9,7 +9,9 @@ import { RegistrationStatus } from '../../../../server/src/server/auth1/auth.ser
 
 export const getAllUsers = async (params?: any): Promise<IUser[]> => {
     const response = await axios.get('/api/users', { params })
-    return response.data
+
+    const { password, ...results } = response.data;
+    return results;
 };
 
 export const createUser = async (user: IUser): Promise<RegistrationStatus> => {
@@ -23,35 +25,43 @@ export const createUser = async (user: IUser): Promise<RegistrationStatus> => {
             email: user.email,
         }
     })
-    return newUser.data;
+
+    const { password, ...results } = newUser.data;
+    return results;
 }
 
 export const getUserById = async (userId: number): Promise<IUser> => {
     const response = await axios.get(`/api/users/${userId}`)
-    return response.data
-
+    const { password, ...results } = response.data;
+    return results;
 }
 
 export const getUserByUsername = async (username: string): Promise<IUser | null> => {
     const response = await axios.get(`/api/users`)
-    return response.data.find((data: IUser) => data.username === username)
+    const userDb = response.data.find((data: IUser) => data.username === username);
+    const { password, ...results } = userDb;
+    return results;
+
 }
 
 export const getUserByEmail = async (email: string): Promise<IUser | null> => {
     const response = await axios.get(`/api/users`)
-    return response.data.find((data: IUser) => data.email === email)
+    const userDb = response.data.find((data: IUser) => data.email === email)
+    const { password, ...results } = userDb;
+    return results;
 }
 
-export const validateSignIn = async (email: string, password: string): Promise<IUser | null> => {
+export const validateSignIn = async (email: string, pass: string): Promise<IUser | null> => {
     try {
         const req = await axios({
             method: 'post',
             url: `/api/auth/validate`,
             data: {
-                email, password
+                email, password: pass
             }
         })
-        return req.data;
+        const { password, ...results } = req.data;
+        return results;
     } catch (error) {
         return null;
     }
