@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app'
 import { Alert } from './components/shared/notificationAlert/alert'
 import { useRouter } from 'next/router'
 import { Suspense, lazy, useState } from 'react';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
 
 const NavbarComponent = lazy(() => import('./components/shared/navbar/navbar'))
 const FooterComponent = lazy(() => import('./components/shared/footer/footer'))
@@ -22,19 +22,19 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       <div className="alert-container">
         <Alert id={"default-alert"} fade={true} />
       </div>
-      {/* <SessionProvider session={session}> */}
-      {isSignedIn &&
-        <Suspense fallback={<LoadingComponent />}>
-          <NavbarComponent setIsSignedIn={setIsSignedIn} />
-        </Suspense>
-      }
-      <Component key={routerUrl} {...pageProps} setIsSignedIn={setIsSignedIn} />
-      {isSignedIn &&
-        <Suspense fallback={<LoadingComponent />}>
-          <FooterComponent />
-        </Suspense>
-      }
-      {/* </SessionProvider > */}
+      <SessionProvider session={session}>
+        {isSignedIn &&
+          <Suspense fallback={<LoadingComponent />}>
+            <NavbarComponent setIsSignedIn={setIsSignedIn} />
+          </Suspense>
+        }
+        <Component key={routerUrl} {...pageProps} setIsSignedIn={setIsSignedIn} />
+        {isSignedIn &&
+          <Suspense fallback={<LoadingComponent />}>
+            <FooterComponent />
+          </Suspense>
+        }
+      </SessionProvider >
     </>
   )
 }

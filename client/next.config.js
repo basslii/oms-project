@@ -23,13 +23,17 @@ const nextConfig = {
         source: '/api/auth/validate',
         destination: 'http://localhost:3000/api/auth/validate'
       },
-      {
-        source: '/api/auth/_log',
-        destination: 'http://localhost:3000/api/auth/_log'
-      },
+      // {
+      //   source: '/api/auth/_log',
+      //   destination: 'http://localhost:3000/api/auth/_log'
+      // },
       {
         source: '/api/auth/session',
         destination: 'http://localhost:3000/api/auth/session'
+      },
+      {
+        source: '/api/auth/logout',
+        destination: 'http://localhost:3000/api/auth/logout'
       },
     ]
   }

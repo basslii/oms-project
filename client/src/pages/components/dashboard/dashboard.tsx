@@ -3,6 +3,7 @@ import { getCurrentUserId, getCurrentUserToken } from "@/server-side/APICalls/au
 import LoadingSpinner from "../shared/loadingSpinner/loadingSpinner";
 import TableComponent from "../shared/table/table";
 import { IUser } from "../../../../../server/src/server/users/entities/user.entity";
+import { useSession } from "next-auth/react";
 
 const SharedCalendar = lazy(() => import("../shared/calendar/calendar"))
 const SharedPieChart = lazy(() => import("../shared/piechart/piechart"))
@@ -127,6 +128,8 @@ const data: any[] = [
 ]
 
 export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
+    const session = useSession()
+
     useEffect(() => {
         const currentToken: string = getCurrentUserToken()!;
         const currentUserId: number = getCurrentUserId();
@@ -134,40 +137,45 @@ export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
     })
     return (
         <>
-            <div className="dashboard-container">
-                <div className="dashboard-grid-view">
-                    <div className="dashboard-calendar-item">
-                        <div className="dashboard-title-box">
-                            <h1>Date Status</h1>
-                        </div>
-                        <Suspense fallback={<LoadingSpinner />}>
-                            <SharedCalendar />
-                        </Suspense>
-                    </div>
-                    <div className="dashboard-userStatus-item">
-                        <div className="dashboard-title-box">
-                            <h1>User Status</h1>
-                        </div>
-                        <Suspense fallback={<LoadingSpinner />}>
-                            <UserStatus />
-                        </Suspense>
-                    </div>
-                    <div className="dashboard-placeStatus-item">
-                        <div className="dashboard-title-box">
-                            <h1>Place Status</h1>
-                        </div>
-                        <div className="dashboard-piechart-box">
-                            <Suspense fallback={<LoadingSpinner />}>
-                                <SharedPieChart />
-                            </Suspense>
+            {
+                session.status === "authenticated"
+                    ? <div className="dashboard-container">
+                        <div className="dashboard-grid-view">
+                            <div className="dashboard-calendar-item">
+                                <div className="dashboard-title-box">
+                                    <h1>Date Status</h1>
+                                </div>
+                                <Suspense fallback={<LoadingSpinner />}>
+                                    <SharedCalendar />
+                                </Suspense>
+                            </div>
+                            <div className="dashboard-userStatus-item">
+                                <div className="dashboard-title-box">
+                                    <h1>User Status</h1>
+                                </div>
+                                <Suspense fallback={<LoadingSpinner />}>
+                                    <UserStatus />
+                                </Suspense>
+                            </div>
+                            <div className="dashboard-placeStatus-item">
+                                <div className="dashboard-title-box">
+                                    <h1>Place Status</h1>
+                                </div>
+                                <div className="dashboard-piechart-box">
+                                    <Suspense fallback={<LoadingSpinner />}>
+                                        <SharedPieChart />
+                                    </Suspense>
 
+                                </div>
+                            </div>
+                        </div>
+                        <div className="dashboard-body-view">
+                            <SharedTableComponent data={data} />
                         </div>
                     </div>
-                </div>
-                <div className="dashboard-body-view">
-                    <SharedTableComponent data={data} />
-                </div>
-            </div>
+                    : null
+            }
+
         </>
     )
 }

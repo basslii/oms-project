@@ -4,12 +4,11 @@ import { AuthController } from './auth.controller';
 import { UsersController } from "../users/users.controller";
 import { PrismaClient } from '@prisma/client';
 import { UsersService } from '../users/users.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { ApplicationConfigService } from 'src/main/config/application-config.service';
 import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local/local.strategy';
-import { LocalAuthGuard } from './local/local-auth.guard';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { SessionSerializer } from './session/session-serializer';
 

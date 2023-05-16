@@ -4,9 +4,10 @@ import { GoSignOut } from 'react-icons/go';
 import { TbUserCircle } from 'react-icons/tb';
 import { IUser } from '../../../../../../server/src/server/users/entities/user.entity';
 import { getUserById } from '@/server-side/APICalls/usersApi';
-import { getCurrentUserId } from '@/server-side/APICalls/authApi';
+import { getCurrentUserId, loggingOut } from '@/server-side/APICalls/authApi';
 import Image from 'next/image';
 import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
+import { useSession } from 'next-auth/react';
 
 type SignOutProps = {
     setIsSignedIn: (isSignedIn: boolean) => void;
@@ -15,6 +16,9 @@ type SignOutProps = {
 export default function Navbar({ setIsSignedIn }: SignOutProps) {
     const [user, setUser] = useState<IUser>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const session = useSession()
+
+    if (session) { console.log(session) }
 
     useEffect(() => {
         async function loadUser(id: number) {
@@ -27,15 +31,16 @@ export default function Navbar({ setIsSignedIn }: SignOutProps) {
         };
     }, [])
 
-    const handleSignOut = async () => {
-        localStorage.setItem("currentUserId", '');
-        localStorage.setItem("currentUserToken", '');
-        const options: IAlertOptions = {
-            autoClose: true,
-            keepAfterRouteChange: true
-        }
-        await goToSignInPage();
-        alertService.warn('You have successfully signed out', options)
+    const handleSignOut = () => {
+        loggingOut().then(async () => {
+            const options: IAlertOptions = {
+                autoClose: true,
+                keepAfterRouteChange: true
+            }
+            await goToSignInPage();
+            alertService.warn('You have successfully signed out', options)
+        })
+
     }
 
     const goToSignInPage = async () => {

@@ -10,7 +10,8 @@ import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, LoginUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
-import { LocalAuthGuard } from './local/local-auth.guard';
+import { AuthenticatedGuard, LocalAuthGuard } from './local/local-auth.guard';
+import passport, { session } from 'passport';
 
 // import { jwtConfig } from '../auth1/'
 
@@ -41,8 +42,8 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('signin')
-  async login(@Request() req): Promise<IAuth> {
-    return this.authService.login(req.body.email, req.body.password);
+  async login(@Request() req): Promise<any> {
+    return await this.authService.login(req.body.email, req.body.password);
   }
 
   @Post('validate')
@@ -62,9 +63,16 @@ export class AuthController {
     return user;
   }
 
+  // @UseGuards(AuthenticatedGuard)
   @Get('session')
-  public async getAuthSession(@Session() session: Record<string, any>) {
-    session.authenticated = true;
-    return session;
+  public async getAuthSession(@Request() req) {
+    console.log(req)
+    return req.session;
+  }
+
+  @Get('logout')
+  logout(@Session() session: Record<string, any>): any {
+    session.destroy()
+    return { msg: "User has successfully logged out" }
   }
 }
