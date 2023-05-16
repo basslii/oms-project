@@ -10,6 +10,8 @@ import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local/local.strategy';
 import { LocalAuthGuard } from './local/local-auth.guard';
+import { JwtStrategy } from './jwt/jwt.strategy';
+import { SessionSerializer } from './session/session-serializer';
 
 @Module({
   imports: [
@@ -29,6 +31,15 @@ import { LocalAuthGuard } from './local/local-auth.guard';
     }),
   ],
   controllers: [AuthController, UsersController],
-  providers: [AuthService, PrismaClient, UsersService, ApplicationConfigService, ConfigService, LocalStrategy]
+  providers: [
+    AuthService,
+    PrismaClient,
+    UsersService,
+    ApplicationConfigService,
+    ConfigService,
+    LocalStrategy,
+    JwtStrategy,
+    SessionSerializer,
+  ]
 })
 export class AuthModule { }

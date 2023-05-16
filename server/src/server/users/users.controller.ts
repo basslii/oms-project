@@ -21,6 +21,7 @@ export class UsersController {
     // return { newUser: CreateUserDto, token };
   }
 
+  // @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOkResponse({ description: 'The resources were returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })

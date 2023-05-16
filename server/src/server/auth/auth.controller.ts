@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Request, UseGuards, Session } from '@nestjs/common';
 import { AuthService, RegistrationStatus } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -60,5 +60,11 @@ export class AuthController {
     }
 
     return user;
+  }
+
+  @Get('session')
+  public async getAuthSession(@Session() session: Record<string, any>) {
+    session.authenticated = true;
+    return session;
   }
 }
