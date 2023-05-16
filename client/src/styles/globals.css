@@ -389,7 +389,8 @@ body {
   display: none;
   position: absolute;
   top: 73px;
-  left: 1650px;
+  /* left: 1650px; */
+  left: 85%;
   background: var(--color-palette-six);
   width: 221.89px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -840,7 +841,7 @@ body {
 
 .navbar-container-items {
   color: var(--color-palette-six);
-  width: 30%;
+  width: 35%;
   /* padding: 20px; */
   display: grid;
   grid-template-columns: auto auto auto auto auto;
