@@ -59,7 +59,7 @@ export class AuthService {
     const token = await this.generateToken(user);
     const sentData: IAuth = {
       user: user,
-      token: token,
+      // token: token,
     }
     return sentData;
   }
@@ -73,6 +73,7 @@ export class AuthService {
     if (user && passwordValid) {
       const { password, ...results } = user;
       return results;
+      // return user;
     }
     throw new UnauthorizedException('Invalid credentials');
   }

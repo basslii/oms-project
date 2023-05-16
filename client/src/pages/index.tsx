@@ -1,9 +1,8 @@
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { getProviders } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,6 +12,7 @@ export default function Home() {
   useEffect(() => {
     router.push('/components/signin/signin');
   }, []);
+
   return (
     <div>
       <Head>
@@ -23,4 +23,12 @@ export default function Home() {
       </Head>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      session: await getProviders()
+    }
+  }
 }

@@ -53,3 +53,7 @@ export const registerUser = async (user: IUser): Promise<RegistrationStatus> => 
     const { password, ...results } = response.data;
     return results;
 }
+
+export const loggingOut = async () => {
+    return axios.get('/api/auth/logout');
+}
