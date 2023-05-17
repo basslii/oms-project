@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { IUser } from "../../../../../server/src/server/users/entities/user.entity";
 import { validateSignIn } from "@/server-side/APICalls/usersApi";
 import { createAuthUser } from "@/server-side/APICalls/authApi";
-import { IAuth } from "../../../../../server/src/server/auth1/entities/auth.entity";
+import { IAuth } from "../../../../../server/src/server/auth/entities/auth.entity";
 import NextAuth from "next-auth";
 
 const authOptions: NextAuthOptions = {
