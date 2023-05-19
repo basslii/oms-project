@@ -7,9 +7,15 @@ import { EmployeesModule } from './src/server/employees/employees.module';
 import { ApplicationConfigModule } from './src/main/config/application-config.module';
 import { ApplicationConfigService } from './src/main/config/application-config.service';
 import { AuthModule } from 'src/server/auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule.register({
+      // defaultStrategy: 'jwt',
+      // property: 'user',
+      session: false,
+    }),
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       isGlobal: true,

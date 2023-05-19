@@ -3,15 +3,13 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { IUser } from '../../../../../server/src/server/users/entities/user.entity';
-import { validateSignIn } from '@/server-side/APICalls/usersApi';
 import { Suspense, useState } from 'react';
 import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
 import router from 'next/router';
-import { createAuthUser, setCurrentUserId, setCurrentUserToken } from '@/server-side/APICalls/authApi';
+import { createAuthUser } from '@/server-side/APICalls/authApi';
 import Head from 'next/head';
 import Layout from '../shared/layout/layout'
 import LoadingSpinner from '../shared/loadingSpinner/loadingSpinner';
-import { signIn, useSession } from "next-auth/react";
 
 type SignInProps = {
     setIsSignedIn: (isSignedIn: boolean) => void;
@@ -29,10 +27,6 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
         password: Yup
             .string()
             .required("Please enter your password")
-        // .matches(
-        //     /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-        //     "Password must contain at least 8 characters, one uppercase, one number and one special case character"
-        // ),
     });
 
     const onSubmit = async (value: { email: string, password: string }) => {
@@ -60,29 +54,6 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
             keepAfterRouteChange: true
         }
         alertService.error('There is a problem with signing in', options)
-    }
-
-    const assignUserJwtToken = async (user: IUser): Promise<void> => {
-        await createAuthUser(user).then(async (authUser) => {
-            if (authUser) {
-                console.log("authUser", authUser)
-                // const res = await signIn("credentials", {
-                //     redirect: false,
-                //     email: 'balipanas97@gmail.com',
-                //     password: 'B@zlightyear97',
-                //     // callbackUrl,
-                // })
-
-                // console.log(res, "res in assignUserJwtToken")
-                // if (!res?.error) {
-                //     goToDashboardComponent();
-                // } else {
-                //     router.push(callbackUrl);
-                //     // setError
-                //     setWarningMessage(true);
-                // }
-            }
-        })
     }
 
     const goToDashboardComponent = () => {
