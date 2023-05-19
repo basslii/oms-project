@@ -67,21 +67,23 @@ export class AuthService {
       user: user,
       token: token,
     }
-    return sentData;
+    return { token };
   }
 
   async validateUser(email?: string, password?: string): Promise<IUser> {
-    const user: IUser = await this.usersService.findUserByEmail(email);
-    const passwordValid = await bcrypt.compare(password, user.password);
+    const user = await this.usersService.findUserByEmail(email);
+
     if (!user) {
-      throw new NotAcceptableException('User does not exist');
+      throw new HttpException('email or password does not exist', HttpStatus.BAD_REQUEST);
     }
-    if (user && passwordValid) {
-      const { password, ...results } = user;
-      return results;
-      // return user;
+
+    const validateUser = await bcrypt.compare(password, user.password)
+
+    if (!validateUser) {
+      throw new HttpException('email or password does not exist', HttpStatus.BAD_REQUEST);
     }
-    throw new UnauthorizedException('Invalid credentials');
+
+    return user;
   }
 
   async generateToken(user: IUser): Promise<string> {

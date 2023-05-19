@@ -51,21 +51,21 @@ export const getUserByEmail = async (email: string): Promise<IUser | null> => {
     return results;
 }
 
-export const validateSignIn = async (email: string, pass: string): Promise<IUser | null> => {
-    try {
-        const req = await axios({
-            method: 'post',
-            url: `/api/auth/validate`,
-            data: {
-                email, password: pass
-            }
-        })
-        const { password, ...results } = req.data;
-        return results;
-    } catch (error) {
-        return null;
-    }
-}
+// export const validateSignIn = async (email: string, pass: string): Promise<IUser | null> => {
+//     try {
+//         const req = await axios({
+//             method: 'post',
+//             url: `/api/auth/validate`,
+//             data: {
+//                 email, password: pass
+//             }
+//         })
+//         const { password, ...results } = req.data;
+//         return results;
+//     } catch (error) {
+//         return null;
+//     }
+// }
 
 export const createAccessToken = async (): Promise<string> => {
     return "create jwt token here and post to /auth/signin endpoint"

@@ -1,20 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Request, UseGuards, Session } from '@nestjs/common';
 import { AuthService, RegistrationStatus } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
-import { IAuth } from './entities/auth.entity';
 import { IUser } from '../users/entities/user.entity';
 import { JwtModuleOptions, JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, LoginUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
-import * as bcrypt from 'bcrypt';
 import { AuthenticatedGuard, LocalAuthGuard } from './local/local-auth.guard';
-import passport, { session } from 'passport';
-
-// import { jwtConfig } from '../auth1/'
-
 @Controller('api/auth')
 @ApiTags('Auth')
 export class AuthController {
@@ -24,11 +16,6 @@ export class AuthController {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) { }
-
-  jwtConfig: JwtModuleOptions = {
-    secretOrPrivateKey: this.configService.get('JWT_SECRET'),
-    signOptions: { expiresIn: '1d' },
-  };
 
   @Post('register')
   public async register(@Body() createUserDto: CreateUserDto): Promise<RegistrationStatus> {
@@ -48,19 +35,7 @@ export class AuthController {
 
   @Post('validate')
   public async validate(@Body() loginUserDto: LoginUserDto): Promise<IUser> {
-    const user = await this.usersService.findUserByEmail(loginUserDto.email);
-
-    if (!user) {
-      throw new HttpException('email or password does not exist', HttpStatus.BAD_REQUEST);
-    }
-
-    const validateUser = await bcrypt.compare(loginUserDto.password, user.password)
-
-    if (!validateUser) {
-      throw new HttpException('email or password does not exist', HttpStatus.BAD_REQUEST);
-    }
-
-    return user;
+    return this.authService.validateUser(loginUserDto.email, loginUserDto.password);
   }
 
   // @UseGuards(AuthenticatedGuard)
