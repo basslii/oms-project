@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { IUser } from '../users/entities/user.entity';
@@ -56,10 +56,16 @@ export class AuthService {
 
   async login(email?: string, password?: string): Promise<IAuth> {
     const user = await this.validateUser(email, password);
+
+    if (!user) throw new HttpException('user does not exist', HttpStatus.BAD_REQUEST);
+
     const token = await this.generateToken(user);
+
+    if (!token) throw new HttpException('token cannot be created', HttpStatus.BAD_REQUEST);
+
     const sentData: IAuth = {
       user: user,
-      // token: token,
+      token: token,
     }
     return sentData;
   }

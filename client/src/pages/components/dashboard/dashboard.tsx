@@ -4,6 +4,7 @@ import LoadingSpinner from "../shared/loadingSpinner/loadingSpinner";
 import TableComponent from "../shared/table/table";
 import { IUser } from "../../../../../server/src/server/users/entities/user.entity";
 import { useSession } from "next-auth/react";
+import NonAuthenticatedPage from "../shared/NonauthenticatedPage/NonauthenticatedPage";
 
 const SharedCalendar = lazy(() => import("../shared/calendar/calendar"))
 const SharedPieChart = lazy(() => import("../shared/piechart/piechart"))
@@ -173,7 +174,7 @@ export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
                             <SharedTableComponent data={data} />
                         </div>
                     </div>
-                    : null
+                    : <NonAuthenticatedPage />
             }
 
         </>
