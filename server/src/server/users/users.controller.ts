@@ -1,13 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, ClassSerializerInterceptor, Put, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, ClassSerializerInterceptor, Put, Request, Headers, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdatePasswordDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiSecurity, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from "../auth/jwt/jwt-auth.guard"
+import { AuthService } from '../auth/auth.service';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtStrategy } from '../auth/jwt/jwt.strategy';
 @Controller('api/users')
 @ApiTags('Users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) { }
 
   @Post()
   @ApiCreatedResponse({ description: 'Created Successfully' })
@@ -15,13 +21,8 @@ export class UsersController {
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
-
-    //To include creating jwt token
-    // const { newUser: CreateUserDto, token } = await this.usersService.create(createUserDto);
-    // return { newUser: CreateUserDto, token };
   }
 
-  // @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOkResponse({ description: 'The resources were returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
@@ -29,38 +30,33 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource Not found' })
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string, @Headers() headers: any) {
     return this.usersService.findOne(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   @ApiOkResponse({ description: 'The resource was updated successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource Not found' })
   @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @Headers() headers: any) {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @ApiOkResponse({ description: 'The resource was deleted successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource Not found' })
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Headers() headers: any) {
     return this.usersService.remove(+id);
   }
-
-  // @UseGuards(JwtAuthGuard)
-  // @ApiSecurity('access-key')
-  // @UseInterceptors(ClassSerializerInterceptor)
-  // @Get('me')
-  // public async me(@Request() req) {
-  //   return new RenderUser(req.user);
-  // }
 
   @UseGuards(JwtAuthGuard)
   @ApiSecurity('access-key')

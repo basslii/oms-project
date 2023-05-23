@@ -4,12 +4,12 @@ import { UsersController } from "./users.controller";
 import { ApplicationConfigModule } from 'src/main/config/application-config.module';
 import { ApplicationConfigService } from 'src/main/config/application-config.service';
 import { PrismaClient } from '@prisma/client';
-// import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from '../auth/auth.module';
+import { AuthService } from '../auth/auth.service';
+import { JwtStrategy } from '../auth/jwt/jwt.strategy';
 @Module({
-  imports: [
-    ApplicationConfigModule,
-  ],
+  imports: [ApplicationConfigModule, AuthModule],
   controllers: [UsersController],
-  providers: [UsersService, ApplicationConfigService, PrismaClient]
+  providers: [UsersService, AuthService, ApplicationConfigService, PrismaClient, JwtStrategy]
 })
 export class UsersModule { }

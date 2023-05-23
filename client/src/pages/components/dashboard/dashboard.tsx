@@ -3,8 +3,9 @@ import { getCurrentUserId, getCurrentUserToken } from "@/server-side/APICalls/au
 import LoadingSpinner from "../shared/loadingSpinner/loadingSpinner";
 import TableComponent from "../shared/table/table";
 import { IUser } from "../../../../../server/src/server/users/entities/user.entity";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import NonAuthenticatedPage from "../shared/NonauthenticatedPage/NonauthenticatedPage";
+import router from 'next/router';
 
 const SharedCalendar = lazy(() => import("../shared/calendar/calendar"))
 const SharedPieChart = lazy(() => import("../shared/piechart/piechart"))
@@ -129,18 +130,30 @@ const data: any[] = [
 ]
 
 export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
-    const session = useSession()
+    const session = useSession();
+    console.log(session)
 
     useEffect(() => {
         const currentToken: string = getCurrentUserToken()!;
         const currentUserId: number = getCurrentUserId();
         setIsSignedIn(true);
+
+        if (!session.data) {
+            goToSignInPage()
+        }
+
     })
+
+    const goToSignInPage = () => {
+        router.push('/components/signin/signin')
+    }
+
     return (
         <>
             {
-                session.status === "authenticated"
-                    ? <div className="dashboard-container">
+                session.data
+                    ?
+                    <div className="dashboard-container">
                         <div className="dashboard-grid-view">
                             <div className="dashboard-calendar-item">
                                 <div className="dashboard-title-box">

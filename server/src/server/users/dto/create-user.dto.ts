@@ -67,6 +67,7 @@ export class UpdatePasswordDto {
 
 export class LoginUserDto {
     @ApiProperty()
+    @IsEmail()
     @IsNotEmpty() readonly email: string;
 
     @ApiProperty()

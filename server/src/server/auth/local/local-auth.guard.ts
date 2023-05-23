@@ -8,9 +8,7 @@ import { validateHeaderValue } from "http";
 export class LocalAuthGuard extends AuthGuard('local') {
     async canActivate(context: ExecutionContext) {
         const result = (await super.canActivate(context)) as boolean;
-        console.log("result", result)
         const request = context.switchToHttp().getRequest();
-        console.log("passport in localAuthGuard", request.session)
         await super.logIn(request)
         return result;
     }

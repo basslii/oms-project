@@ -1,17 +1,16 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { IUser } from "../../../../../server/src/server/users/entities/user.entity";
-import { validateSignIn } from "@/server-side/APICalls/usersApi";
-import { createAuthUser } from "@/server-side/APICalls/authApi";
+import { validateUser } from "@/server-side/APICalls/authApi";
 import { IAuth } from "../../../../../server/src/server/auth/entities/auth.entity";
 import NextAuth from "next-auth";
 
 const authOptions: NextAuthOptions = {
-    pages: {
-        signIn: '/components/signin/signin',
-        signOut: '/components/signout/signout',
-        error: 'auth/error'
-    },
+    // pages: {
+    //     signIn: '/components/signin/signin',
+    //     signOut: '/components/signout/signout',
+    //     error: 'auth/error'
+    // },
     session: {
         strategy: "jwt"
     },
@@ -28,45 +27,40 @@ const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials, req) {
-                // const { email, password } = credentials as { email: string, password: string };
-                const res = await createAuthUser(credentials!)
-                console.log(res, "res")
-                if (!res) {
-                    return null;
-                };
-
-                return {
-                    id: res.user.id,
-                    name: res.user.username,
-                    email: res.user.email,
-                    token: res.token,
-                };
+                const res = await validateUser(credentials!)
+                return !res ? null : res;
             },
         })
     ],
     callbacks: {
-        session: ({ session, token }) => {
-            console.log(session, token, "session and token");
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    // id: session!.user!.id,
-                },
-                token: token.token,
-            };
+        session: ({ session, token, user }) => {
+            // console.log(session, token, "session and token");
+            // return {
+            //     ...session,
+            //     user: {
+            //         ...session.user,
+            //         // id: session!.user!.id,
+            //     },
+            //     token: token.token,
+            // };
+            session.user = user;
+            console.log(session, "in session nextauth");
+
+            return session
         },
         jwt: ({ token, user }) => {
-            if (user) {
-                console.log(user, token, "user and token")
-                const u = user as unknown as IAuth;
-                return {
-                    ...token,
-                    id: u.id,
-                    token: token.token,
-                };
-            }
-            return token;
+            // if (user) {
+            //     console.log(user, token, "user and token")
+            //     const u = user as unknown as IAuth;
+            //     return {
+            //         ...token,
+            //         id: u.id,
+            //         token: token.token,
+            //     };
+            // }
+            // return token;
+            console.log(token, "in jwt nextauth");
+            return token
         },
     },
 };

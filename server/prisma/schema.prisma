@@ -19,7 +19,6 @@ model User {
   updatedAt   DateTime    @default(now()) @updatedAt
   role        Role        @default(USER)
   employee    Employee? 
-  auth        Auth[]
   isLoading   Boolean     @default(false)
 }
 
@@ -32,13 +31,6 @@ model Employee {
   image_type    String  
   user          User?   @relation(fields: [userId], references: [id])
   userId        Int?    @unique
-}
-
-model Auth {
-  id        Int     @id @default(autoincrement())
-  token     String
-  user      User?   @relation(fields: [userId], references: [id])
-  userId    Int?    
 }
 
 enum Role {

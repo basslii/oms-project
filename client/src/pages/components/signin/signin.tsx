@@ -6,7 +6,7 @@ import { IUser } from '../../../../../server/src/server/users/entities/user.enti
 import { Suspense, useState } from 'react';
 import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
 import router from 'next/router';
-import { createAuthUser } from '@/server-side/APICalls/authApi';
+import { signInUser, getAppSession } from '@/server-side/APICalls/authApi';
 import Head from 'next/head';
 import Layout from '../shared/layout/layout'
 import LoadingSpinner from '../shared/loadingSpinner/loadingSpinner';
@@ -30,7 +30,7 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
     });
 
     const onSubmit = async (value: { email: string, password: string }) => {
-        await createAuthUser(value)
+        await signInUser(value)
             .then(() => onSuccess().then(() => goToDashboardComponent()))
             .catch(err => {
                 onError();
@@ -56,9 +56,11 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
         alertService.error('There is a problem with signing in', options)
     }
 
-    const goToDashboardComponent = () => {
-        router.push('/components/dashboard/dashboard')
-        setIsSignedIn(true);
+    const goToDashboardComponent = async () => {
+        await getAppSession().then(() => {
+            router.push('/components/dashboard/dashboard')
+            setIsSignedIn(true);
+        })
     }
 
     return (
