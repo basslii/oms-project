@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Request, UseGuards, Session } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, UseGuards, Session, Req, Res } from '@nestjs/common';
 import { AuthService, RegistrationStatus } from './auth.service';
 import { ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
 import { IUser } from '../users/entities/user.entity';
@@ -7,6 +7,8 @@ import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, LoginUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import { AuthenticatedGuard, LocalAuthGuard } from './local/local-auth.guard';
+import { session } from 'passport';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 @Controller('api/auth')
 @ApiTags('Auth')
 export class AuthController {
@@ -27,10 +29,10 @@ export class AuthController {
     return result;
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('signin')
-  async login(@Request() req): Promise<any> {
-    return await this.authService.login(req.body.email, req.body.password);
+  async login(@Body() loginUserDto: LoginUserDto, @Req() req, @Res() res): Promise<any> {
+    const { email, password } = loginUserDto
+    return this.authService.login(loginUserDto, req, res)
   }
 
   @Post('validate')
@@ -38,16 +40,16 @@ export class AuthController {
     return this.authService.validateUser(loginUserDto.email, loginUserDto.password);
   }
 
-  // @UseGuards(AuthenticatedGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('session')
-  public async getAuthSession(@Request() req) {
-    console.log(req)
-    return req.session;
+  public async getSession(@Req() req, @Res() res) {
+    console.log(req.cookies);
+    const token = req.cookies.token;
+    return res.send({ token });
   }
 
   @Get('logout')
-  logout(@Session() session: Record<string, any>): any {
-    session.destroy()
-    return { msg: "User has successfully logged out" }
+  async logout(@Req() req, @Res() res) {
+    return await this.authService.logout(req, res)
   }
 }

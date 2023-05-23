@@ -27,7 +27,7 @@ export const getCurrentUserToken = (): string | null => {
     return sessionStorage.getItem("currentUserToken")
 }
 
-export const createAuthUser = async (user: IUser): Promise<IAuth> => {
+export const signInUser = async (user: IUser) => {
     const response = await axios({
         method: 'post',
         url: '/api/auth/signin',
@@ -36,9 +36,7 @@ export const createAuthUser = async (user: IUser): Promise<IAuth> => {
             password: user.password,
         }
     })
-    const { password, ...results } = response.data;
-    return results;
-
+    return response.data.message;
 }
 export const registerUser = async (user: IUser): Promise<RegistrationStatus> => {
     const response = await axios({
@@ -56,4 +54,22 @@ export const registerUser = async (user: IUser): Promise<RegistrationStatus> => 
 
 export const loggingOut = async () => {
     return axios.get('/api/auth/logout');
+}
+
+export const getAppSession = async () => {
+    return axios.get('/api/auth/session');
+}
+
+export const validateUser = async (user: IUser) => {
+    const response = await axios({
+        method: 'post',
+        url: '/api/auth/register',
+        data: {
+            username: user.username,
+            email: user.email,
+            password: user.password,
+        }
+    })
+    const { password, ...results } = response.data;
+    return results;
 }

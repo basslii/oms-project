@@ -14,6 +14,11 @@ import { SessionSerializer } from './session/session-serializer';
 
 @Module({
   imports: [
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+      // property: 'user',
+      session: false,
+    }),
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => {
         return {
@@ -34,6 +39,7 @@ import { SessionSerializer } from './session/session-serializer';
     LocalStrategy,
     JwtStrategy,
     SessionSerializer,
-  ]
+  ],
+  exports: [JwtModule, JwtStrategy]
 })
 export class AuthModule { }

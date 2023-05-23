@@ -5,12 +5,14 @@ import { IUser, User } from './entities/user.entity';
 import { ApplicationConfigService } from 'src/main/config/application-config.service';
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly applicationConfigService: ApplicationConfigService,
-    private readonly prismaClient: PrismaClient<User>
+    private readonly prismaClient: PrismaClient<User>,
+    private readonly jwtService: JwtService,
   ) { }
   protected resourceUrl = this.applicationConfigService.getEndpointFor('/api/users')
 
@@ -32,8 +34,11 @@ export class UsersService {
     return await this.prismaClient.user.findMany({
       include: {
         employee: true,
-        auth: true,
-      }
+        // auth: true,
+      },
+      orderBy: {
+        id: 'desc',
+      },
     });
   }
 
@@ -45,7 +50,7 @@ export class UsersService {
         },
         include: {
           employee: true,
-          auth: true,
+          // auth: true,
         }
       }
     );
@@ -65,7 +70,7 @@ export class UsersService {
       },
       include: {
         employee: true,
-        auth: true,
+        // auth: true,
       }
     });
   }
@@ -81,7 +86,7 @@ export class UsersService {
       where: { username },
       include: {
         employee: true,
-        auth: true,
+        // auth: true,
       }
     })
 
@@ -93,7 +98,7 @@ export class UsersService {
       where: { email },
       include: {
         employee: true,
-        auth: true,
+        // auth: true,
       }
     });
 
@@ -107,7 +112,7 @@ export class UsersService {
       where: { email: email, password: password },
       include: {
         employee: true,
-        auth: true,
+        // auth: true,
       }
     });
     return user;
