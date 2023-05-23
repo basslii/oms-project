@@ -44,7 +44,7 @@ export default function Navbar({ setIsSignedIn, isSignedIn }: NavbarProps) {
     }
 
     const goToSignInPage = async () => {
-        await router.push('/components/signin/signin');
+        await router.push('/');
         setIsSignedIn(false)
     }
 

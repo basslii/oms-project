@@ -13,6 +13,7 @@ import Layout from '../shared/layout/layout';
 import StepIndicator from '../shared/stepIndicator/stepIndicator';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 const SignInComponent = lazy(() => import('../signin/signin'));
 const UserInfoComponent = lazy(() => import('../userInfo/userInfo'));
@@ -40,7 +41,7 @@ export default function SignUp() {
     }
 
     const handleSigninClick = () => {
-        router.push('/components/signin/signin')
+        router.push('/')
     }
 
     return (
@@ -61,8 +62,7 @@ export default function SignUp() {
                         </Suspense>
                     }
                     <div className="CTA">
-                        <a href="/components/signin/signin" className='switch'>I already have an OMS account</a>
-                        {/* <button onClick={() => signIn()}>I already have an OMS account</button> */}
+                        <Link href="/" className='switch'>I already have an OMS account</Link>
                     </div>
                 </div>
             </div>
