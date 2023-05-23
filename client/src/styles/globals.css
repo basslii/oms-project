@@ -64,9 +64,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-*>* {
+/* *>* {
   font-family: var(--text-primary);
-}
+} */
 
 .center {
   display: flex;

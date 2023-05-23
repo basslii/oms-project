@@ -131,7 +131,6 @@ const data: any[] = [
 
 export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
     const session = useSession();
-    console.log(session)
 
     useEffect(() => {
         const currentToken: string = getCurrentUserToken()!;
@@ -145,7 +144,7 @@ export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
     })
 
     const goToSignInPage = () => {
-        router.push('/components/signin/signin')
+        router.push('/')
     }
 
     return (
