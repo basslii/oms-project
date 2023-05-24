@@ -1,23 +1,23 @@
 "user client";
 
-import { IUser } from '../../../../../server/src/server/users/entities/user.entity'
+import { IUser } from '../../../server/src/server/users/entities/user.entity'
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { getAllUsers } from '../../../server-side/APICalls/usersApi'
+import { getAllUsers } from '../server-side/APICalls/usersApi'
 // import UserInfo from '../userInfo/userInfo';
 // import EmployeeInfo from '../employeeInfo/employeeInfo';
 // import StepIndicator from '../stepIndicator/stepIndicator';
-import { Alert } from '../shared/notificationAlert/alert';
-import LoadingSpinner from '../shared/loadingSpinner';
+import { Alert } from './components/shared/notificationAlert/alert';
+import LoadingSpinner from './components/shared/loadingSpinner';
 import Head from 'next/head';
-import Layout from '../shared/layout';
-import StepIndicator from '../shared/stepIndicator/stepIndicator';
+import Layout from './components/shared/layout';
+import StepIndicator from './components/shared/stepIndicator/stepIndicator';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 
-const SignInComponent = lazy(() => import('../signin'));
+const SignInComponent = lazy(() => import('./signin'));
 const UserInfoComponent = lazy(() => import('../userInfo'));
-const EmployeeInfoComponent = lazy(() => import('../employeeInfo'));
+const EmployeeInfoComponent = lazy(() => import('./employeeInfo'));
 
 export default function SignUp() {
     const [users, setUsers] = useState<IUser[]>([]);

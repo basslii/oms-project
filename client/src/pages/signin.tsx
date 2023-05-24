@@ -2,14 +2,14 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { IUser } from '../../../../../server/src/server/users/entities/user.entity';
+import { IUser } from '../../../server/src/server/users/entities/user.entity';
 import { Suspense, useState } from 'react';
 import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
 import router from 'next/router';
 import { signInUser, getAppSession } from '@/server-side/APICalls/authApi';
 import Head from 'next/head';
-import Layout from '../shared/layout'
-import LoadingSpinner from '../shared/loadingSpinner';
+import Layout from './components/layout'
+import LoadingSpinner from './components/loadingSpinner';
 
 type SignInProps = {
     setIsSignedIn: (isSignedIn: boolean) => void;
@@ -58,7 +58,7 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
 
     const goToDashboardComponent = async () => {
         await getAppSession().then(() => {
-            router.push('/components/dashboard')
+            router.push('/dashboard')
             setIsSignedIn(true);
         })
     }
@@ -109,7 +109,7 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
                     </Formik>
                 </div>
                 <div className="CTA">
-                    <a href="/components/signup" className='switch'>create OMS account</a>
+                    <a href="/signup" className='switch'>create OMS account</a>
                 </div>
             </Layout>
         </Suspense>

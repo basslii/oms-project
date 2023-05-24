@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { IEmployee } from "../../../../../server/src/server/employees/entities/employee.entity"
+import { IEmployee } from "../../../server/src/server/employees/entities/employee.entity"
 import { useEffect, useState } from 'react';
 import { getCurrentUserId } from '@/server-side/APICalls/authApi';
 import { createUserEmployee } from '@/server-side/APICalls/employeeApi';
