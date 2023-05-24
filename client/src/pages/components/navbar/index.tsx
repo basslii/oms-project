@@ -2,12 +2,12 @@ import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { GoSignOut } from 'react-icons/go';
 import { TbUserCircle } from 'react-icons/tb';
-import { IUser } from '../../../../../../server/src/server/users/entities/user.entity';
 import { getUserById } from '@/server-side/APICalls/usersApi';
 import { getCurrentUserId, loggingOut } from '@/server-side/APICalls/authApi';
 import Image from 'next/image';
 import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
 import { getSession, useSession } from 'next-auth/react';
+import { IUser } from '../../../../../server/src/server/users/entities/user.entity';
 
 type NavbarProps = {
     setIsSignedIn: (isSignedIn: boolean) => void,

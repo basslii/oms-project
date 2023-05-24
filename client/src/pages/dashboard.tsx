@@ -1,16 +1,16 @@
 import { Suspense, lazy, useEffect } from "react";
 import { getCurrentUserId, getCurrentUserToken } from "@/server-side/APICalls/authApi";
-import LoadingSpinner from "../shared/loadingSpinner";
-import TableComponent from "../shared/table/table";
-import { IUser } from "../../../../../server/src/server/users/entities/user.entity";
+import LoadingSpinner from "./components/loadingSpinner";
+import TableComponent from "./components/table/table";
+import { IUser } from "../../../server/src/server/users/entities/user.entity";
 import { getSession, useSession } from "next-auth/react";
-import NonAuthenticatedPage from "../shared/NonauthenticatedPage";
+import NonAuthenticatedPage from "./components/NonauthenticatedPage";
 import router from 'next/router';
 
-const SharedCalendar = lazy(() => import("../shared/calendar/calendar"))
-const SharedPieChart = lazy(() => import("../shared/piechart/piechart"))
-const SharedTableComponent = lazy(() => import("../shared/table/table"))
-const UserStatus = lazy(() => import("../shared/userStatus/userstatus"))
+const SharedCalendar = lazy(() => import("./components/calendar/calendar"))
+const SharedPieChart = lazy(() => import("./components/piechart/piechart"))
+const SharedTableComponent = lazy(() => import("./components/table/table"))
+const UserStatus = lazy(() => import("./components/userStatus/userstatus"))
 
 type DashBoardProps = {
     setIsSignedIn: (isSignedIn: boolean) => void;
