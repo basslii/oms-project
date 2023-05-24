@@ -5,7 +5,7 @@ import { Request } from "express"
 import { validateHeaderValue } from "http";
 
 @Injectable()
-export class LocalAuthGuard extends AuthGuard('local') {
+export class RolesAuthGuard extends AuthGuard('local') {
     async canActivate(context: ExecutionContext) {
         const result = (await super.canActivate(context)) as boolean;
         const request = context.switchToHttp().getRequest();

@@ -129,14 +129,15 @@ const data: any[] = [
 
 export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
     const session = useSession();
+    console.log(session, "session")
 
     useEffect(() => {
         const currentToken: string = getCurrentUserToken()!;
         const currentUserId: number = getCurrentUserId();
         setIsSignedIn(true);
 
-        if (!session) {
-            goToSignInPage()
+        if (session.status === "unauthenticated") {
+            goToSignInPage();
         }
 
     })

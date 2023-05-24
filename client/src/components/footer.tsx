@@ -10,7 +10,7 @@ export default function Footer({ setIsSignedIn }: FooterProps) {
     return (
         <>
             {
-                session ?
+                session.status === "authenticated" ?
                     <div className="footer-container">
                         <h1>This is Footer container</h1>
                     </div> :

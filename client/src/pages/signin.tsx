@@ -8,8 +8,8 @@ import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
 import router from 'next/router';
 import { signInUser, getAppSession } from '@/server-side/APICalls/authApi';
 import Head from 'next/head';
-import Layout from './components/layout'
-import LoadingSpinner from './components/loadingSpinner';
+import LoadingSpinner from '@/components/loadingSpinner';
+import Layout from '@/components/layout';
 
 type SignInProps = {
     setIsSignedIn: (isSignedIn: boolean) => void;
