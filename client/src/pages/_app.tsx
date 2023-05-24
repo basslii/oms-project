@@ -16,7 +16,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   return (
     <>
-      <div className='slider-thumb'></div>
       <div className="alert-container">
         <Alert id={"default-alert"} fade={true} />
       </div>
