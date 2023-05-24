@@ -1,13 +1,13 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Alert } from './components/notificationAlert/alert'
 import { useRouter } from 'next/router'
 import { Suspense, lazy, useState } from 'react';
 import { SessionProvider } from 'next-auth/react';
+import { Alert } from '@/components/alert';
 
-const NavbarComponent = lazy(async () => await import('./components/navbar'))
-const FooterComponent = lazy(async () => await import('./components/footer'))
-const LoadingComponent = lazy(() => import('./components/loadingSpinner'))
+const NavbarComponent = lazy(async () => await import('../components/navbar'))
+const FooterComponent = lazy(async () => await import('../components/footer'))
+const LoadingComponent = lazy(() => import('../components/loadingSpinner'))
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const router = useRouter();

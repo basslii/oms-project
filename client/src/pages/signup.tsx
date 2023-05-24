@@ -6,17 +6,15 @@ import { getAllUsers } from '../server-side/APICalls/usersApi'
 // import UserInfo from '../userInfo/userInfo';
 // import EmployeeInfo from '../employeeInfo/employeeInfo';
 // import StepIndicator from '../stepIndicator/stepIndicator';
-import { Alert } from './components/shared/notificationAlert/alert';
-import LoadingSpinner from './components/shared/loadingSpinner';
 import Head from 'next/head';
-import Layout from './components/shared/layout';
-import StepIndicator from './components/shared/stepIndicator/stepIndicator';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import Layout from '@/components/layout';
+import LoadingSpinner from '@/components/loadingSpinner';
 
 const SignInComponent = lazy(() => import('./signin'));
-const UserInfoComponent = lazy(() => import('../userInfo'));
+const UserInfoComponent = lazy(() => import('./userInfo'));
 const EmployeeInfoComponent = lazy(() => import('./employeeInfo'));
 
 export default function SignUp() {
