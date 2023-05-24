@@ -7,17 +7,17 @@ import { getAllUsers } from '../../../server-side/APICalls/usersApi'
 // import EmployeeInfo from '../employeeInfo/employeeInfo';
 // import StepIndicator from '../stepIndicator/stepIndicator';
 import { Alert } from '../shared/notificationAlert/alert';
-import LoadingSpinner from '../shared/loadingSpinner/loadingSpinner';
+import LoadingSpinner from '../shared/loadingSpinner';
 import Head from 'next/head';
-import Layout from '../shared/layout/layout';
+import Layout from '../shared/layout';
 import StepIndicator from '../shared/stepIndicator/stepIndicator';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 
-const SignInComponent = lazy(() => import('../signin/signin'));
-const UserInfoComponent = lazy(() => import('../userInfo/userInfo'));
-const EmployeeInfoComponent = lazy(() => import('../employeeInfo/employeeInfo'));
+const SignInComponent = lazy(() => import('../signin'));
+const UserInfoComponent = lazy(() => import('../userInfo'));
+const EmployeeInfoComponent = lazy(() => import('../employeeInfo'));
 
 export default function SignUp() {
     const [users, setUsers] = useState<IUser[]>([]);

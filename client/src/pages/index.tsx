@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { getProviders } from 'next-auth/react'
-import SignIn from './components/signin/signin'
+import SignIn from './components/signin'
 
 const inter = Inter({ subsets: ['latin'] })
 
