@@ -5,8 +5,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiSecurity, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from "../auth/jwt/jwt-auth.guard"
 import { AuthService } from '../auth/auth.service';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtStrategy } from '../auth/jwt/jwt.strategy';
+import { Roles } from '../auth/roles/roles.decorator';
+import { Role } from '@prisma/client';
 @Controller('api/users')
 @ApiTags('Users')
 export class UsersController {
@@ -69,4 +69,10 @@ export class UsersController {
       message: "password_update_success"
     };
   };
+
+  @Roles(Role.ADMIN)
+  @Get('test')
+  async test() {
+    return "to test role auth"
+  }
 };

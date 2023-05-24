@@ -1,13 +1,11 @@
 import { Controller, Get, Post, Body, HttpException, HttpStatus, UseGuards, Session, Req, Res } from '@nestjs/common';
 import { AuthService, RegistrationStatus } from './auth.service';
-import { ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { IUser } from '../users/entities/user.entity';
-import { JwtModuleOptions, JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, LoginUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
-import { AuthenticatedGuard, LocalAuthGuard } from './local/local-auth.guard';
-import { session } from 'passport';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 @Controller('api/auth')
 @ApiTags('Auth')
@@ -42,11 +40,9 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('session')
-  public async getSession(@Session() session) {
-    // const jwtToken = req.cookies.token;
-    // return res.send({ token });
-    // const { token, ...others } = req.cookies;
-    return session;
+  public async getSession(@Session() session, @Req() req, @Res() res) {
+    const user: IUser = req.user;
+    return res.send({ user });
   }
 
   @Get('logout')

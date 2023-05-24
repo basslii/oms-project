@@ -1,16 +1,14 @@
 import { Suspense, lazy, useEffect } from "react";
 import { getCurrentUserId, getCurrentUserToken } from "@/server-side/APICalls/authApi";
-import LoadingSpinner from "./components/loadingSpinner";
-import TableComponent from "./components/table/table";
-import { IUser } from "../../../server/src/server/users/entities/user.entity";
-import { getSession, useSession } from "next-auth/react";
-import NonAuthenticatedPage from "./components/NonauthenticatedPage";
+import { useSession } from "next-auth/react";
 import router from 'next/router';
+import LoadingSpinner from "@/components/loadingSpinner"
+import UserStatus from "@/components/userstatus"
+import NonAuthenticatedPage from "@/components/nonauthenticatedPage";
 
-const SharedCalendar = lazy(() => import("./components/calendar/calendar"))
-const SharedPieChart = lazy(() => import("./components/piechart/piechart"))
-const SharedTableComponent = lazy(() => import("./components/table/table"))
-const UserStatus = lazy(() => import("./components/userStatus/userstatus"))
+const SharedCalendar = lazy(() => import("../components/calendar"))
+const SharedPieChart = lazy(() => import("../components/piechart"))
+const SharedTableComponent = lazy(() => import("../components/table"))
 
 type DashBoardProps = {
     setIsSignedIn: (isSignedIn: boolean) => void;
@@ -131,14 +129,15 @@ const data: any[] = [
 
 export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
     const session = useSession();
+    console.log(session, "session")
 
     useEffect(() => {
         const currentToken: string = getCurrentUserToken()!;
         const currentUserId: number = getCurrentUserId();
         setIsSignedIn(true);
 
-        if (!session) {
-            goToSignInPage()
+        if (session.status === "unauthenticated") {
+            goToSignInPage();
         }
 
     })

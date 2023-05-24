@@ -1,16 +1,13 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { IUser, User } from '../users/entities/user.entity';
 import { JwtModuleOptions, JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { PrismaClient } from '@prisma/client';
-import { Auth, IAuth } from './entities/auth.entity';
-import { ApplicationConfigService } from 'src/main/config/application-config.service';
+import { Auth } from './entities/auth.entity';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto, LoginUserDto } from '../users/dto/create-user.dto';
-import { Request, Response, response } from "express"
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { Request, Response } from "express"
 
 export interface RegistrationStatus {
   success: boolean;
@@ -63,7 +60,7 @@ export class AuthService {
 
     if (!validatedUser) throw new BadRequestException('wrong credentials');
 
-    const { password, ...results } = validatedUser
+    // const { password, ...results } = validatedUser
     const token = await this.generateToken({ id: validatedUser.id, email: validatedUser.email });
 
     if (!token) throw new BadRequestException('token cannot be created');

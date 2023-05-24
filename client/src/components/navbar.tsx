@@ -7,7 +7,7 @@ import { getCurrentUserId, loggingOut } from '@/server-side/APICalls/authApi';
 import Image from 'next/image';
 import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
 import { getSession, useSession } from 'next-auth/react';
-import { IUser } from '../../../../../server/src/server/users/entities/user.entity';
+import { IUser } from '../../../server/src/server/users/entities/user.entity';
 
 type NavbarProps = {
     setIsSignedIn: (isSignedIn: boolean) => void,
@@ -18,16 +18,7 @@ export default function Navbar({ setIsSignedIn }: NavbarProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const session = useSession()
 
-    // useEffect(() => {
-    //     async function loadUser(id: number) {
-    //         await getUserById(id).then(data => setUser(data))
-    //     }
-
-    //     const id: number = getCurrentUserId();
-    //     if (id) {
-    //         loadUser(id)
-    //     };
-    // }, [])
+    console.log(session.data?.user)
 
     const handleSignOut = () => {
         loggingOut().then(async () => {
@@ -55,7 +46,7 @@ export default function Navbar({ setIsSignedIn }: NavbarProps) {
 
     return (
         <>
-            {session
+            {session.status === "authenticated"
                 ?
                 <div className="navbar-container">
                     <div className="logo">
@@ -75,8 +66,8 @@ export default function Navbar({ setIsSignedIn }: NavbarProps) {
                                 <Image src="/default-user.png" alt="profile-img" width="30" height="30" />
                             </div>
                             <div className="profile-container-user-info">
-                                <h1>Username: {user?.username}</h1>
-                                <h1>Email: {user?.email}</h1>
+                                {/* <h1>Username: {session?.data?.user?.username}</h1> */}
+                                <h1>Email: {session?.data?.user?.email}</h1>
                             </div>
                         </div>
                     </button>

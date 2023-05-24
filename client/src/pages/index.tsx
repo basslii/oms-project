@@ -11,10 +11,6 @@ export default function Home() {
   const router = useRouter();
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
 
-  // useEffect(() => {
-  //   router.push('/components/signin/signin');
-  // }, []);
-
   return (
     <div>
       <Head>

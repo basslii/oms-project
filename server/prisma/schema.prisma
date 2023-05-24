@@ -17,7 +17,7 @@ model User {
   username    String      @unique
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @default(now()) @updatedAt
-  role        Role        @default(USER)
+  roles       Role[]      @default([USER])
   employee    Employee? 
   isLoading   Boolean     @default(false)
 }
