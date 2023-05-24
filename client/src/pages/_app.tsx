@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 import { Suspense, lazy, useState } from 'react';
 import { SessionProvider } from 'next-auth/react';
 
-const NavbarComponent = lazy(async () => await import('./components/shared/navbar/navbar'))
-const FooterComponent = lazy(async () => await import('./components/shared/footer/footer'))
-const LoadingComponent = lazy(() => import('./components/shared/loadingSpinner/loadingSpinner'))
+const NavbarComponent = lazy(async () => await import('./components/shared/navbar'))
+const FooterComponent = lazy(async () => await import('./components/shared/footer'))
+const LoadingComponent = lazy(() => import('./components/shared/loadingSpinner'))
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const router = useRouter();

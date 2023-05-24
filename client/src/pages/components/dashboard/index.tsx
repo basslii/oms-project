@@ -1,10 +1,10 @@
 import { Suspense, lazy, useEffect } from "react";
 import { getCurrentUserId, getCurrentUserToken } from "@/server-side/APICalls/authApi";
-import LoadingSpinner from "../shared/loadingSpinner/loadingSpinner";
+import LoadingSpinner from "../shared/loadingSpinner";
 import TableComponent from "../shared/table/table";
 import { IUser } from "../../../../../server/src/server/users/entities/user.entity";
 import { getSession, useSession } from "next-auth/react";
-import NonAuthenticatedPage from "../shared/NonauthenticatedPage/NonauthenticatedPage";
+import NonAuthenticatedPage from "../shared/NonauthenticatedPage";
 import router from 'next/router';
 
 const SharedCalendar = lazy(() => import("../shared/calendar/calendar"))

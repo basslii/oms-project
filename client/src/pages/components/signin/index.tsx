@@ -8,8 +8,8 @@ import { IAlertOptions, alertService } from '@/server-side/APICalls/alertApi';
 import router from 'next/router';
 import { signInUser, getAppSession } from '@/server-side/APICalls/authApi';
 import Head from 'next/head';
-import Layout from '../shared/layout/layout'
-import LoadingSpinner from '../shared/loadingSpinner/loadingSpinner';
+import Layout from '../shared/layout'
+import LoadingSpinner from '../shared/loadingSpinner';
 
 type SignInProps = {
     setIsSignedIn: (isSignedIn: boolean) => void;
@@ -58,7 +58,7 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
 
     const goToDashboardComponent = async () => {
         await getAppSession().then(() => {
-            router.push('/components/dashboard/dashboard')
+            router.push('/components/dashboard')
             setIsSignedIn(true);
         })
     }
@@ -109,7 +109,7 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
                     </Formik>
                 </div>
                 <div className="CTA">
-                    <a href="/components/signup/signup" className='switch'>create OMS account</a>
+                    <a href="/components/signup" className='switch'>create OMS account</a>
                 </div>
             </Layout>
         </Suspense>

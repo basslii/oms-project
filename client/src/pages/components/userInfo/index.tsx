@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { IUser, } from '../../../../../server/src/server/users/entities/user.entity'
 import { createUser } from '../../../server-side/APICalls/usersApi'
 import { registerUser, setCurrentUserId } from '@/server-side/APICalls/authApi';
-import { RegistrationStatus } from '../../../../../server/src/server/auth1/auth.service';
+import { RegistrationStatus } from '../../../../../server/src/server/auth/auth.service';
 
 interface IUserInfoProps {
     onNextStep: () => void;

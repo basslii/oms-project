@@ -36,9 +36,9 @@ export default function Navbar({ setIsSignedIn, isSignedIn }: NavbarProps) {
                 autoClose: true,
                 keepAfterRouteChange: true
             }
+            setIsSignedIn(false)
             await goToSignInPage();
             alertService.warn('You have successfully signed out', options)
-            console.log(session, "session");
         })
 
     }
