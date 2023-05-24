@@ -137,7 +137,7 @@ export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
         const currentUserId: number = getCurrentUserId();
         setIsSignedIn(true);
 
-        if (!session.data) {
+        if (!session) {
             goToSignInPage()
         }
 
@@ -150,7 +150,7 @@ export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
     return (
         <>
             {
-                session.data
+                session
                     ?
                     <div className="dashboard-container">
                         <div className="dashboard-grid-view">

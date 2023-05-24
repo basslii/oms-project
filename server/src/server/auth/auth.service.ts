@@ -10,7 +10,7 @@ import { ApplicationConfigService } from 'src/main/config/application-config.ser
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto, LoginUserDto } from '../users/dto/create-user.dto';
-import { Request, Response } from "express"
+import { Request, Response, response } from "express"
 
 export interface RegistrationStatus {
   success: boolean;
@@ -117,6 +117,15 @@ export class AuthService {
   }
 
   async logout(req: Request, res: Response) {
+    req.session.destroy(() => {
+      // res.cookie(this.configService.get<string>('SESSION_NAME'), "", {
+      //   path: "/",
+      //   httpOnly: true,
+      //   maxAge: 0,
+      //   expires: new Date(0)
+      // })
+      res.end();
+    })
     res.clearCookie('token');
     return res.send({ message: "user logged out successfully" })
   }

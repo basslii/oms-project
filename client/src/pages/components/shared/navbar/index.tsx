@@ -56,7 +56,7 @@ export default function Navbar({ setIsSignedIn, isSignedIn }: NavbarProps) {
 
     return (
         <>
-            {session.data && isSignedIn
+            {session && isSignedIn
                 ?
                 <div className="navbar-container">
                     <div className="logo">
