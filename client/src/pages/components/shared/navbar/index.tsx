@@ -11,10 +11,9 @@ import { getSession, useSession } from 'next-auth/react';
 
 type NavbarProps = {
     setIsSignedIn: (isSignedIn: boolean) => void,
-    isSignedIn: boolean,
 }
 
-export default function Navbar({ setIsSignedIn, isSignedIn }: NavbarProps) {
+export default function Navbar({ setIsSignedIn }: NavbarProps) {
     const [user, setUser] = useState<IUser>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const session = useSession()
@@ -56,7 +55,7 @@ export default function Navbar({ setIsSignedIn, isSignedIn }: NavbarProps) {
 
     return (
         <>
-            {session && isSignedIn
+            {session
                 ?
                 <div className="navbar-container">
                     <div className="logo">
