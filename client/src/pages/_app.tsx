@@ -20,11 +20,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         <Alert id={"default-alert"} fade={true} />
       </div>
       <SessionProvider session={session}>
-        <Suspense fallback={<LoadingComponent />}>
-          {isSignedIn && <NavbarComponent setIsSignedIn={setIsSignedIn} isSignedIn={isSignedIn} />}
-          <Component key={routerUrl} {...pageProps} setIsSignedIn={setIsSignedIn} />
-          {isSignedIn && <FooterComponent setIsSignedIn={setIsSignedIn} isSignedIn={isSignedIn} />}
-        </Suspense>
+        {isSignedIn && <NavbarComponent setIsSignedIn={setIsSignedIn} isSignedIn={isSignedIn} />}
+        <Component key={routerUrl} {...pageProps} setIsSignedIn={setIsSignedIn} />
+        {isSignedIn && <FooterComponent setIsSignedIn={setIsSignedIn} isSignedIn={isSignedIn} />}
       </SessionProvider >
     </>
   )
