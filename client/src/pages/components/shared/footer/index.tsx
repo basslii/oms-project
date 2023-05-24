@@ -11,7 +11,7 @@ export default function Footer({ setIsSignedIn, isSignedIn }: FooterProps) {
     return (
         <>
             {
-                session.data && isSignedIn ?
+                session && isSignedIn ?
                     <div className="footer-container">
                         <h1>This is Footer container</h1>
                     </div> :

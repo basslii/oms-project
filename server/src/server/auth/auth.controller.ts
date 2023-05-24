@@ -42,10 +42,11 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('session')
-  public async getSession(@Req() req, @Res() res) {
-    console.log(req.cookies);
-    const token = req.cookies.token;
-    return res.send({ token });
+  public async getSession(@Session() session) {
+    // const jwtToken = req.cookies.token;
+    // return res.send({ token });
+    // const { token, ...others } = req.cookies;
+    return session;
   }
 
   @Get('logout')
