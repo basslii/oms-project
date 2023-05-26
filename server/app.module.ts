@@ -7,6 +7,7 @@ import { EmployeesModule } from './src/server/employees/employees.module';
 import { ApplicationConfigModule } from './src/main/config/application-config.module';
 import { ApplicationConfigService } from './src/main/config/application-config.service';
 import { AuthModule } from 'src/server/auth/auth.module';
+import { OrganizationsModule } from 'src/server/organizations/organizations.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthModule } from 'src/server/auth/auth.module';
     EmployeesModule,
     AuthModule,
     ApplicationConfigModule,
+    OrganizationsModule,
   ],
   controllers: [AppController],
   providers: [AppService, ApplicationConfigService],

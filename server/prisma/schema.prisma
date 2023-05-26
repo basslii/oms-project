@@ -11,26 +11,32 @@ datasource db {
 }
 
 model User {
-  id          Int         @id @default(autoincrement())
-  email       String      @unique
-  password    String  
-  username    String      @unique
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @default(now()) @updatedAt
-  roles       Role[]      @default([USER])
-  employee    Employee? 
-  isLoading   Boolean     @default(false)
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  username  String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  roles     Role[]    @default([USER])
+  employee  Employee?
+  isLoading Boolean   @default(false)
+
+  organization         Organization?  @relation(fields: [organizationId], references: [id])
+  organizationId       Int?
+  organizationLeaderOf Organization?  @relation("OrganizationLeader")
+  assistantOf          Organization?  @relation("Assistant")
+  subAssistantOf       Organization?  @relation("SubAssistant")
 }
 
 model Employee {
-  id            Int     @id @default(autoincrement())
-  firstname     String  
-  lastname      String  
-  phone_number  String  @unique
-  image_url     Bytes   
-  image_type    String  
-  user          User?   @relation(fields: [userId], references: [id])
-  userId        Int?    @unique
+  id           Int    @id @default(autoincrement())
+  firstname    String
+  lastname     String
+  phone_number String @unique
+  image_url    Bytes
+  image_type   String
+  user         User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int?   @unique
 }
 
 enum Role {
@@ -38,4 +44,18 @@ enum Role {
   ADMIN
   HEAD_OF_DEPARTMENT
   ORGANIZATION_LEADER
+}
+
+model Organization {
+  id                   Int    @id @default(autoincrement())
+  name                 String @unique
+  cost_center          String
+  organization_leader  User?  @relation("OrganizationLeader", fields: [organizationLeaderId], references: [id], onDelete: SetNull)
+  assistant            User?  @relation("Assistant", fields: [assistantId], references: [id], onDelete: SetNull)
+  sub_assistant        User?  @relation("SubAssistant", fields: [subAssistantId], references: [id], onDelete: SetNull)
+  organizationLeaderId Int?   @unique
+  assistantId          Int?   @unique
+  subAssistantId       Int?   @unique
+
+  employees            User[]
 }
