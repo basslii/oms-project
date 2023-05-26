@@ -143,7 +143,7 @@ export default function Dashboard({ setIsSignedIn }: DashBoardProps) {
     })
 
     const goToSignInPage = () => {
-        router.push('/')
+        router.push('/signin')
     }
 
     return (

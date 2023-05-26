@@ -4,13 +4,14 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { getProviders } from 'next-auth/react'
 import SignIn from './signin'
+import Dashboard from './dashboard'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
-  const router = useRouter();
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
-
+type SignInProps = {
+  setIsSignedIn: (isSignedIn: boolean) => void;
+}
+export default function Home({ setIsSignedIn }: SignInProps) {
   return (
     <div>
       <Head>
@@ -19,7 +20,7 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
       </Head>
-      <SignIn setIsSignedIn={setIsSignedIn} />
+      <Dashboard setIsSignedIn={setIsSignedIn} />
     </div>
   )
 }
