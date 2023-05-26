@@ -34,7 +34,10 @@ export class UsersService {
     return await this.prismaClient.user.findMany({
       include: {
         employee: true,
-        // auth: true,
+        organization: true,
+        organizationLeaderOf: true,
+        assistantOf: true,
+        subAssistantOf: true,
       },
       orderBy: {
         id: 'desc',
@@ -50,7 +53,10 @@ export class UsersService {
         },
         include: {
           employee: true,
-          // auth: true,
+          organization: true,
+          organizationLeaderOf: true,
+          assistantOf: true,
+          subAssistantOf: true,
         }
       }
     );
@@ -70,7 +76,10 @@ export class UsersService {
       },
       include: {
         employee: true,
-        // auth: true,
+        organization: true,
+        organizationLeaderOf: true,
+        assistantOf: true,
+        subAssistantOf: true,
       }
     });
   }
