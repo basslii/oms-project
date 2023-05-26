@@ -58,7 +58,7 @@ export default function SignIn({ setIsSignedIn }: SignInProps) {
 
     const goToDashboardComponent = async () => {
         await getAppSession().then(() => {
-            router.push('/dashboard')
+            router.push('/')
             setIsSignedIn(true);
         })
     }

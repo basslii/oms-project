@@ -34,7 +34,7 @@ export default function Navbar({ setIsSignedIn }: NavbarProps) {
     }
 
     const goToSignInPage = async () => {
-        await router.push('/');
+        await router.push('/signin');
         setIsSignedIn(false)
     }
 

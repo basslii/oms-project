@@ -38,8 +38,8 @@ export default function SignUp() {
         setNextSignUpStep(nextSignUpStep + 1);
     }
 
-    const handleSigninClick = () => {
-        router.push('/')
+    const handleSigninClick = async () => {
+        await router.push('/signin');
     }
 
     return (
@@ -60,7 +60,7 @@ export default function SignUp() {
                         </Suspense>
                     }
                     <div className="CTA">
-                        <Link href="/" className='switch'>I already have an OMS account</Link>
+                        <Link href="/signin" className='switch'>I already have an OMS account</Link>
                     </div>
                 </div>
             </div>
